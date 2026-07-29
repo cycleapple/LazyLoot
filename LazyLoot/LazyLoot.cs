@@ -52,19 +52,19 @@ public class LazyLoot : IDalamudPlugin, IDisposable
 
         Svc.Commands.AddHandler("/lazyloot", new CommandInfo(LazyCommand)
         {
-            HelpMessage = "Open Lazy Loot config.",
+            HelpMessage = "開啟 LazyLoot 設定。",
             ShowInHelp = true,
         });
 
         Svc.Commands.AddHandler("/lazy", new CommandInfo(LazyCommand)
         {
-            HelpMessage = "Open Lazy Loot config by default. Add need | greed | pass to roll on current items.",
+            HelpMessage = "預設開啟 LazyLoot 設定；加上 need | greed | pass 可對目前物品擲骰。",
             ShowInHelp = true,
         });
 
         Svc.Commands.AddHandler("/fulf", new CommandInfo(FulfCommand)
         {
-            HelpMessage = "Enable/Disable FULF with /fulf [on|off] or change the loot rule with /fulf need | greed | pass.",
+            HelpMessage = "使用 /fulf [on|off] 啟用或停用 FULF，或以 /fulf need | greed | pass 變更擲骰規則。",
             ShowInHelp = true,
         });
 
@@ -194,9 +194,9 @@ public class LazyLoot : IDalamudPlugin, IDisposable
         {
             var fulfMode = Config.FulfRoll switch
             {
-                0 => "Needing",
-                1 => "Greeding",
-                2 => "Passing",
+                0 => "需求",
+                1 => "貪婪",
+                2 => "放棄",
                 _ => throw new ArgumentOutOfRangeException(nameof(Config.FulfRoll)),
             };
 
@@ -209,7 +209,7 @@ public class LazyLoot : IDalamudPlugin, IDisposable
         {
             DtrEntry.Text = new SeString(
             new IconPayload(BitmapFontIcon.Dice),
-            new TextPayload("FULF Disabled"));
+            new TextPayload("FULF 已停用"));
         }
 
         DtrEntry.Shown = true;
@@ -254,19 +254,19 @@ public class LazyLoot : IDalamudPlugin, IDisposable
     {
         SeString seString = new(new List<Payload>()
         {
-            new TextPayload("Need "),
+            new TextPayload("需求 "),
             new UIForegroundPayload(575),
             new TextPayload(need.ToString()),
             new UIForegroundPayload(0),
-            new TextPayload(" item" + (need == 1 ? "" : "s") + ", greed "),
+            new TextPayload(" 件，貪婪 "),
             new UIForegroundPayload(575),
             new TextPayload(greed.ToString()),
             new UIForegroundPayload(0),
-            new TextPayload(" item" + (greed == 1 ? "" : "s") + ", pass "),
+            new TextPayload(" 件，放棄 "),
             new UIForegroundPayload(575),
             new TextPayload(pass.ToString()),
             new UIForegroundPayload(0),
-            new TextPayload(" item" + (pass == 1 ? "" : "s") + ".")
+            new TextPayload(" 件。")
         });
 
         if (Config.EnableChatLogMessage)

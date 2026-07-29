@@ -1,8 +1,8 @@
 {
   "Author": "53m1k0l0n/Gidedin (Puni.sh)",
   "Name": "LazyLoot",
-  "Punchline": "Dungeon Loot but Lazy.",
-  "Description": "Roll command with various arguments need | needonly | greed | pass | passall. \nChat and Toast output and delay for rolling.",
+  "Punchline": "更輕鬆地處理任務戰利品。",
+  "Description": "透過 need、greed、pass 等參數執行擲骰指令，並支援聊天與快顯訊息輸出及擲骰延遲設定。",
   "Tags": [
     "plugin",
     "loot",
@@ -10,9 +10,9 @@
     "other"
   ],
   "CategoryTags": null,
-  "RepoUrl": "https://github.com/PunishXIV/LazyLoot",
+  "RepoUrl": "https://github.com/cycleapple/LazyLoot/tree/api13-tw",
   "ImageUrls": null,
   "IconUrl": "https://love.puni.sh/resources/lazyloot.png",
   "DalamudAPILevel": 13,
-  "ChangeLog": "- Optimize restriction imports."
+  "ChangeLog": "- 新增繁體中文介面翻譯。"
 }

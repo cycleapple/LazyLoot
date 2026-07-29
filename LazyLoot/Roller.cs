@@ -41,7 +41,7 @@ internal static class Roller
         {
             if (LazyLoot.Config.DiagnosticsMode && !LazyLoot.Config.NoPassEmergency)
                 DuoLog.Debug(
-                    $"{Svc.Data.GetExcelSheet<Item>().GetRow(loot.ItemId).Name.ToString()} has failed to roll for some reason. Passing for safety. [Emergency pass]");
+                    $"{Svc.Data.GetExcelSheet<Item>().GetRow(loot.ItemId).Name} 因不明原因擲骰失敗，為安全起見將選擇放棄。[Emergency pass]");
 
             if (!LazyLoot.Config.NoPassEmergency)
             {
@@ -100,7 +100,7 @@ internal static class Roller
             stateMax = RollResult.Passed;
 
         if (LazyLoot.Config.DiagnosticsMode && stateMax == RollResult.Passed)
-            DuoLog.Debug($"{item.Value.Name.ToString()} can only be passed on. [RollState UpToPass]");
+            DuoLog.Debug($"{item.Value.Name} 目前只能選擇放棄。[RollState UpToPass]");
 
         //Checks what the player set loot rules are
         var ruleMax = loot.LootMode switch
@@ -125,10 +125,10 @@ internal static class Roller
         {
             if (LazyLoot.Config.DiagnosticsMode)
             {
-                var action = itemCustomRestriction.RollRule == RollResult.Passed ? "passing" :
-                    itemCustomRestriction.RollRule == RollResult.Greeded ? "greeding" :
-                    itemCustomRestriction.RollRule == RollResult.Needed ? "needing" : "passing";
-                Svc.Log.Debug($"{lootItem.Value.Name.ToString()} is {action}. [Item Custom Restriction]");
+                var action = itemCustomRestriction.RollRule == RollResult.Passed ? "放棄" :
+                    itemCustomRestriction.RollRule == RollResult.Greeded ? "貪婪" :
+                    itemCustomRestriction.RollRule == RollResult.Needed ? "需求" : "放棄";
+                Svc.Log.Debug($"{lootItem.Value.Name} 將選擇{action}。[Item Custom Restriction]");
             }
 
             return itemCustomRestriction.RollRule;
@@ -143,11 +143,11 @@ internal static class Roller
         {
             if (LazyLoot.Config.DiagnosticsMode)
             {
-                var action = dutyCustomRestriction.RollRule == RollResult.Passed ? "passing" :
-                    dutyCustomRestriction.RollRule == RollResult.Greeded ? "greeding" :
-                    dutyCustomRestriction.RollRule == RollResult.Needed ? "needing" : "passing";
+                var action = dutyCustomRestriction.RollRule == RollResult.Passed ? "放棄" :
+                    dutyCustomRestriction.RollRule == RollResult.Greeded ? "貪婪" :
+                    dutyCustomRestriction.RollRule == RollResult.Needed ? "需求" : "放棄";
                 Svc.Log.Debug(
-                    $"{lootItem.Value.Name.ToString()} is {action} due to being in {contentFinderInfo.Name}. [Duty Custom Restriction]");
+                    $"因目前位於「{contentFinderInfo.Name}」，{lootItem.Value.Name} 將選擇{action}。[Duty Custom Restriction]");
             }
 
             return dutyCustomRestriction.RollRule;
@@ -166,7 +166,7 @@ internal static class Roller
         {
             if (LazyLoot.Config.DiagnosticsMode)
                 DuoLog.Debug(
-                    $"Passing due to unknown item? Please give this ID to the developers: {loot.ItemId} [Unknown ID]");
+                    $"因物品不明而選擇放棄。請將此 ID 提供給開發者：{loot.ItemId} [Unknown ID]");
             return RollResult.Passed;
         }
 
@@ -174,7 +174,7 @@ internal static class Roller
         {
             if (LazyLoot.Config.DiagnosticsMode)
                 DuoLog.Debug(
-                    $"{lootItem.Value.Name.ToString()} has been passed due to being unique and you already possess one. [Unique Item]");
+                    $"{lootItem.Value.Name} 是唯一物品且你已持有，因此選擇放棄。[Unique Item]");
 
             return RollResult.Passed;
         }
@@ -185,7 +185,7 @@ internal static class Roller
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
-                        $@"{lootItem.Value.Name.ToString()} has been passed due to being unlocked and you have ""Pass on all items already unlocked"" enabled. [Pass All Unlocked]");
+                        $"{lootItem.Value.Name} 已解鎖，且已啟用「放棄所有已解鎖物品」，因此選擇放棄。[Pass All Unlocked]");
 
                 return RollResult.Passed;
             }
@@ -195,7 +195,7 @@ internal static class Roller
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
-                        $@"{lootItem.Value.Name.ToString()} has been passed due to being unlocked and you have ""Pass on unlocked Faded Copies"" enabled. [Pass Faded Copies]");
+                        $"{lootItem.Value.Name} 已解鎖，且已啟用「放棄已解鎖的褪色的樂譜」，因此選擇放棄。[Pass Faded Copies]");
 
                 return RollResult.Passed;
             }
@@ -207,7 +207,7 @@ internal static class Roller
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
-                        $@"{lootItem.Value.Name.ToString()} has been passed due to being unlocked and you have ""Pass on all items already unlocked"" enabled. [Pass All Unlocked]");
+                        $"{lootItem.Value.Name} 已解鎖，且已啟用「放棄所有已解鎖物品」，因此選擇放棄。[Pass All Unlocked]");
 
                 return RollResult.Passed;
             }
@@ -216,7 +216,7 @@ internal static class Roller
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
-                        $@"{lootItem.Value.Name.ToString()} has been passed due to being unlocked and you have ""Pass on unlocked Mounts"" enabled. [Pass Mounts]");
+                        $"{lootItem.Value.Name} 已解鎖，且已啟用「放棄已解鎖的坐騎」，因此選擇放棄。[Pass Mounts]");
 
                 return RollResult.Passed;
             }
@@ -225,7 +225,7 @@ internal static class Roller
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
-                        $@"{lootItem.Value.Name.ToString()} has been passed due to being unlocked and you have ""Pass on unlocked Minions"" enabled. [Pass Minions]");
+                        $"{lootItem.Value.Name} 已解鎖，且已啟用「放棄已解鎖的寵物」，因此選擇放棄。[Pass Minions]");
 
                 return RollResult.Passed;
             }
@@ -235,7 +235,7 @@ internal static class Roller
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
-                        $@"{lootItem.Value.Name.ToString()} has been passed due to being unlocked and you have ""Pass on unlocked Bardings"" enabled. [Pass Bardings]");
+                        $"{lootItem.Value.Name} 已解鎖，且已啟用「放棄已解鎖的陸行鳥裝甲」，因此選擇放棄。[Pass Bardings]");
 
                 return RollResult.Passed;
             }
@@ -245,7 +245,7 @@ internal static class Roller
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
-                        $@"{lootItem.Value.Name.ToString()} has been passed due to being unlocked and you have ""Pass on unlocked Emotes and Hairstyles"" enabled. [Pass Emotes/Hairstyles]");
+                        $"{lootItem.Value.Name} 已解鎖，且已啟用「放棄已解鎖的情感動作與髮型」，因此選擇放棄。[Pass Emotes/Hairstyles]");
 
                 return RollResult.Passed;
             }
@@ -255,7 +255,7 @@ internal static class Roller
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
-                        $@"{lootItem.Value.Name.ToString()} has been passed due to being unlocked and you have ""Pass on unlocked Triple Triad cards"" enabled. [Pass TTCards]");
+                        $"{lootItem.Value.Name} 已解鎖，且已啟用「放棄已解鎖的九宮幻卡」，因此選擇放棄。[Pass TTCards]");
 
                 return RollResult.Passed;
             }
@@ -265,7 +265,7 @@ internal static class Roller
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
-                        $@"{lootItem.Value.Name.ToString()} has been passed due to being unlocked and you have ""Pass on unlocked Orchestrion Rolls"" enabled. [Pass Orchestrion]");
+                        $"{lootItem.Value.Name} 已解鎖，且已啟用「放棄已解鎖的樂譜」，因此選擇放棄。[Pass Orchestrion]");
 
                 return RollResult.Passed;
             }
@@ -281,7 +281,7 @@ internal static class Roller
                 {
                     if (LazyLoot.Config.DiagnosticsMode)
                         DuoLog.Debug(
-                            $@"{lootItem.Value.Name.ToString()} has been passed due to selling for less than {LazyLoot.Config.RestrictionSealsAmnt} seals. [Pass Seals]");
+                            $"{lootItem.Value.Name} 的稀有品籌備軍票價值低於 {LazyLoot.Config.RestrictionSealsAmnt}，因此選擇放棄。[Pass Seals]");
 
                     return RollResult.Passed;
                 }
@@ -299,7 +299,7 @@ internal static class Roller
                     if (LazyLoot.Config.DiagnosticsMode &&
                         LazyLoot.Config.RestrictionLootLowerThanJobIlvlRollState != 0)
                         DuoLog.Debug(
-                            $@"{lootItem.Value.Name.ToString()} has been passed due to being below your average item level and you have set to pass items below your average job item level. [Pass Item Lower Than Average iLevel]");
+                            $"{lootItem.Value.Name} 的品級低於目前職業平均品級，且相關規則設為放棄，因此選擇放棄。[Pass Item Lower Than Average iLevel]");
 
                     return LazyLoot.Config.RestrictionLootLowerThanJobIlvlRollState == 0
                         ? RollResult.Greeded
@@ -312,7 +312,7 @@ internal static class Roller
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
-                        $@"{lootItem.Value.Name.ToString()} has been passed due to having ""Pass on items with an item level below"" enabled and {lootItem.Value.LevelItem.RowId} is less than {LazyLoot.Config.RestrictionIgnoreItemLevelBelowValue}. [Pass Item Level]");
+                        $"{lootItem.Value.Name} 的品級 {lootItem.Value.LevelItem.RowId} 低於設定值 {LazyLoot.Config.RestrictionIgnoreItemLevelBelowValue}，因此選擇放棄。[Pass Item Level]");
 
                 return RollResult.Passed;
             }
@@ -339,7 +339,7 @@ internal static class Roller
                 {
                     if (LazyLoot.Config.DiagnosticsMode && LazyLoot.Config.RestrictionLootIsJobUpgradeRollState != 0)
                         DuoLog.Debug(
-                            $@"{lootItem.Value.Name.ToString()} has been passed due to being below the level of your current equipped item level and you have set to pass items below the level of your equipped item. [Pass Item if equipped is of higher level]");
+                            $"{lootItem.Value.Name} 的品級低於同部位已裝備物品，且相關規則設為放棄，因此選擇放棄。[Pass Item if equipped is of higher level]");
 
                     return LazyLoot.Config.RestrictionLootIsJobUpgradeRollState == 0
                         ? RollResult.Greeded
@@ -352,7 +352,7 @@ internal static class Roller
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
-                        $@"{lootItem.Value.Name.ToString()} has been passed due to having ""Pass on items I can't use with current job"" and this item cannot be used with your current job. [Pass Other Job]");
+                        $"{lootItem.Value.Name} 無法由目前職業使用，且已啟用相關放棄規則，因此選擇放棄。[Pass Other Job]");
 
                 return RollResult.Passed;
             }
@@ -365,7 +365,7 @@ internal static class Roller
         {
             if (LazyLoot.Config.DiagnosticsMode)
                 DuoLog.Debug(
-                    $@"{lootItem.Value.Name.ToString()} has been passed due to having ""Pass on items I can't use with current job"" and this item cannot be used with your current job. [Pass Other Job (PLD Sets)]");
+                    $"{lootItem.Value.Name} 無法由目前職業使用，且已啟用相關放棄規則，因此選擇放棄。[Pass Other Job (PLD Sets)]");
 
             return RollResult.Passed;
         }

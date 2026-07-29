@@ -51,7 +51,7 @@ public class ConfigUi : Window, IDisposable
         [FieldOffset(0x38)] public LootMode LootMode;
     }
 
-    public ConfigUi() : base("Lazy Loot Config")
+    public ConfigUi() : base("Lazy Loot 設定")
     {
         SizeConstraints = new WindowSizeConstraints
         {
@@ -72,7 +72,7 @@ public class ConfigUi : Window, IDisposable
     {
         if (ImGui.BeginTabBar("config"))
         {
-            if (ImGui.BeginTabItem("Features"))
+            if (ImGui.BeginTabItem("功能"))
             {
                 DrawFeatures();
                 ImGui.Separator();
@@ -86,20 +86,20 @@ public class ConfigUi : Window, IDisposable
                 ImGui.EndTabItem();
             }
 
-            if (ImGui.BeginTabItem("User Restriction"))
+            if (ImGui.BeginTabItem("自訂規則"))
             {
                 DrawUserRestriction();
                 ImGui.EndTabItem();
             }
 
-            if (ImGui.BeginTabItem("About"))
+            if (ImGui.BeginTabItem("關於"))
             {
                 AboutTab.Draw("LazyLoot");
                 ImGui.EndTabItem();
             }
 
 #if DEBUG
-            if (ImGui.BeginTabItem("Debug"))
+            if (ImGui.BeginTabItem("偵錯"))
             {
                 DrawDebug();
                 ImGui.EndTabItem();
@@ -120,13 +120,13 @@ public class ConfigUi : Window, IDisposable
 
     private unsafe void DrawDebug()
     {
-        if (ImGui.CollapsingHeader("Is Item Unlocked?"))
+        if (ImGui.CollapsingHeader("物品是否已解鎖？"))
         {
-            ImGui.InputInt("Debug Value Tester", ref debugValue);
-            ImGui.Text($"Is Unlocked: {Roller.IsItemUnlocked((uint)debugValue)}");
+            ImGui.InputInt("偵錯數值測試", ref debugValue);
+            ImGui.Text($"已解鎖：{Roller.IsItemUnlocked((uint)debugValue)}");
         }
 
-        if (ImGui.CollapsingHeader("Loot"))
+        if (ImGui.CollapsingHeader("戰利品"))
         {
             var loot = Loot.Instance();
             if (loot != null)
@@ -159,54 +159,54 @@ public class ConfigUi : Window, IDisposable
 
     private void DrawDiagnostics()
     {
-        ImGuiEx.LineCentered("DiagnosticsLabel", () => ImGuiEx.TextUnderlined("Diagnostics & Troubleshooting"));
+        ImGuiEx.LineCentered("DiagnosticsLabel", () => ImGuiEx.TextUnderlined("診斷與疑難排解"));
 
-        if (ImGui.Checkbox("Diagnostics Mode", ref LazyLoot.Config.DiagnosticsMode))
+        if (ImGui.Checkbox("診斷模式", ref LazyLoot.Config.DiagnosticsMode))
             LazyLoot.Config.Save();
 
         ImGuiComponents.HelpMarker(
-            "Outputs additional messages to chat whenever an item is passed, with reasons. This is useful for helping to diagnose issues with the developers or for understanding why LazyLoot makes decisions to pass on items.\r\n\r\nThese messages will only be displayed to you, nobody else in-game can see them.");
+            "每次放棄物品時，會在聊天視窗輸出額外訊息與原因，方便與開發者診斷問題，或了解 LazyLoot 為何決定放棄該物品。\r\n\r\n這些訊息只會顯示給你，遊戲內其他玩家看不到。");
 
-        if (ImGui.Checkbox("Don't pass on items that fail to roll.", ref LazyLoot.Config.NoPassEmergency))
+        if (ImGui.Checkbox("擲骰失敗時不要自動放棄物品", ref LazyLoot.Config.NoPassEmergency))
             LazyLoot.Config.Save();
 
         ImGuiComponents.HelpMarker(
-            "Normally LazyLoot will pass on items that fail to roll. Enabling this option will prevent it from passing in those situations. Be warned there could be weird side effects doing this and should only be used if you're running into issues with emergency passing appearing.");
+            "通常 LazyLoot 會放棄擲骰失敗的物品。啟用此選項可避免這種情況，但可能產生非預期副作用，僅建議在遇到緊急放棄問題時使用。");
     }
 
     public override void OnClose()
     {
         LazyLoot.Config.Save();
-        Notify.Success("Configuration saved");
+        Notify.Success("設定已儲存");
         base.OnClose();
     }
 
     private static void DrawFeatures()
     {
-        ImGuiEx.ImGuiLineCentered("FeaturesLabel", () => ImGuiEx.TextUnderlined("LazyLoot Rolling Commands"));
+        ImGuiEx.ImGuiLineCentered("FeaturesLabel", () => ImGuiEx.TextUnderlined("LazyLoot 擲骰指令"));
         ImGui.Columns(2, ImU8String.Empty, false);
         ImGui.SetColumnWidth(0, 80);
         ImGui.Text("/lazy need");
         ImGui.NextColumn();
-        ImGui.Text("Roll need for everything. If impossible, roll greed (or pass if greed is impossible).");
+        ImGui.Text("對所有物品選擇需求；無法需求時選擇貪婪，若也無法貪婪則放棄。");
         ImGui.NextColumn();
         ImGui.Text("/lazy greed");
         ImGui.NextColumn();
-        ImGui.Text("Roll greed for everything. If impossible, roll pass.");
+        ImGui.Text("對所有物品選擇貪婪；無法貪婪時選擇放棄。");
         ImGui.NextColumn();
         ImGui.Text("/lazy pass");
         ImGui.NextColumn();
-        ImGui.Text("Pass on things you haven't rolled for yet.");
+        ImGui.Text("放棄所有尚未擲骰的物品。");
         ImGui.NextColumn();
         ImGui.Columns(1);
     }
 
     private static void DrawRollingDelay()
     {
-        ImGuiEx.LineCentered("RollingDelayLabel", () => ImGuiEx.TextUnderlined("Rolling Command Delay"));
+        ImGuiEx.LineCentered("RollingDelayLabel", () => ImGuiEx.TextUnderlined("擲骰指令延遲"));
         ImGui.SetNextItemWidth(100);
 
-        if (ImGui.DragFloatRange2("Rolling delay between items", ref LazyLoot.Config.MinRollDelayInSeconds,
+        if (ImGui.DragFloatRange2("物品之間的擲骰延遲", ref LazyLoot.Config.MinRollDelayInSeconds,
                 ref LazyLoot.Config.MaxRollDelayInSeconds, 0.1f))
         {
             LazyLoot.Config.MinRollDelayInSeconds = Math.Max(LazyLoot.Config.MinRollDelayInSeconds, 0.5f);
@@ -218,9 +218,9 @@ public class ConfigUi : Window, IDisposable
 
     private static void DrawUserRestrictionEverywhere()
     {
-        ImGui.Text("Settings in this page will apply to every single item, even if they are tradeable or not.");
+        ImGui.Text("此頁設定會套用至所有物品，不論是否可交易。");
         ImGui.Separator();
-        ImGui.Checkbox("Pass on items with an item level below",
+        ImGui.Checkbox("放棄低於此品級的物品",
             ref LazyLoot.Config.RestrictionIgnoreItemLevelBelow);
         ImGui.SameLine();
         ImGui.SetNextItemWidth(50);
@@ -230,38 +230,38 @@ public class ConfigUi : Window, IDisposable
             LazyLoot.Config.RestrictionIgnoreItemLevelBelowValue = 0;
 
         ImGui.Checkbox(
-            "Pass on all items already unlocked. (Triple Triad Cards, Orchestrions, Faded Copies, Minions, Mounts, Emotes, Hairstyles)",
+            "放棄所有已解鎖物品（九宮幻卡、樂譜、褪色的樂譜、寵物、坐騎、情感動作、髮型）",
             ref LazyLoot.Config.RestrictionIgnoreItemUnlocked);
 
         if (!LazyLoot.Config.RestrictionIgnoreItemUnlocked)
         {
-            ImGui.Checkbox("Pass on unlocked Mounts.", ref LazyLoot.Config.RestrictionIgnoreMounts);
-            ImGui.Checkbox("Pass on unlocked Minions.", ref LazyLoot.Config.RestrictionIgnoreMinions);
-            ImGui.Checkbox("Pass on unlocked Bardings.", ref LazyLoot.Config.RestrictionIgnoreBardings);
-            ImGui.Checkbox("Pass on unlocked Triple Triad cards.",
+            ImGui.Checkbox("放棄已解鎖的坐騎", ref LazyLoot.Config.RestrictionIgnoreMounts);
+            ImGui.Checkbox("放棄已解鎖的寵物", ref LazyLoot.Config.RestrictionIgnoreMinions);
+            ImGui.Checkbox("放棄已解鎖的陸行鳥裝甲", ref LazyLoot.Config.RestrictionIgnoreBardings);
+            ImGui.Checkbox("放棄已解鎖的九宮幻卡",
                 ref LazyLoot.Config.RestrictionIgnoreTripleTriadCards);
-            ImGui.Checkbox("Pass on unlocked Emotes and Hairstyle.",
+            ImGui.Checkbox("放棄已解鎖的情感動作與髮型",
                 ref LazyLoot.Config.RestrictionIgnoreEmoteHairstyle);
-            ImGui.Checkbox("Pass on unlocked Orchestrion Rolls.",
+            ImGui.Checkbox("放棄已解鎖的樂譜",
                 ref LazyLoot.Config.RestrictionIgnoreOrchestrionRolls);
-            ImGui.Checkbox("Pass on unlocked Faded Copies.", ref LazyLoot.Config.RestrictionIgnoreFadedCopy);
+            ImGui.Checkbox("放棄已解鎖的褪色的樂譜", ref LazyLoot.Config.RestrictionIgnoreFadedCopy);
         }
 
-        ImGui.Checkbox("Pass on items I can't use with current job.",
+        ImGui.Checkbox("放棄目前職業無法使用的物品",
             ref LazyLoot.Config.RestrictionOtherJobItems);
 
-        ImGui.Checkbox("Don't roll on items with a weekly lockout.",
+        ImGui.Checkbox("不要擲骰有每週取得限制的物品",
             ref LazyLoot.Config.RestrictionWeeklyLockoutItems);
 
         ImGui.Checkbox("###RestrictionWeeklyLockoutItems", ref LazyLoot.Config.RestrictionLootLowerThanJobIlvl);
         ImGui.SameLine();
-        ImGui.Text("Roll");
+        ImGui.Text("選擇");
         ImGui.SameLine();
         ImGui.SetNextItemWidth(80);
         ImGui.Combo("###RestrictionLootLowerThanJobIlvlRollState",
-            ref LazyLoot.Config.RestrictionLootLowerThanJobIlvlRollState, new[] { "Greed", "Pass" }, 2);
+            ref LazyLoot.Config.RestrictionLootLowerThanJobIlvlRollState, new[] { "貪婪", "放棄" }, 2);
         ImGui.SameLine();
-        ImGui.Text("on items that are");
+        ImGui.Text("於低於目前職業");
         ImGui.SetNextItemWidth(50);
         ImGui.SameLine();
         ImGui.DragInt("###RestrictionLootLowerThanJobIlvlTreshold",
@@ -269,31 +269,31 @@ public class ConfigUi : Window, IDisposable
         if (LazyLoot.Config.RestrictionLootLowerThanJobIlvlTreshold < 0)
             LazyLoot.Config.RestrictionLootLowerThanJobIlvlTreshold = 0;
         ImGui.SameLine();
-        ImGui.Text($"item levels lower than your current job item level (\u2605 {Utils.GetPlayerIlevel()}).");
-        ImGuiComponents.HelpMarker("This setting will only apply to gear you can need on.");
+        ImGui.Text($"品級（★ {Utils.GetPlayerIlevel()}）指定差值的物品。");
+        ImGuiComponents.HelpMarker("此設定僅套用於你可選擇需求的裝備。");
 
         ImGui.Checkbox("###RestrictionLootIsJobUpgrade", ref LazyLoot.Config.RestrictionLootIsJobUpgrade);
         ImGui.SameLine();
-        ImGui.Text("Roll");
+        ImGui.Text("選擇");
         ImGui.SameLine();
         ImGui.SetNextItemWidth(80);
         ImGui.Combo("###RestrictionLootIsJobUpgradeRollState",
             ref LazyLoot.Config.RestrictionLootIsJobUpgradeRollState,
-            new[] { "Greed", "Pass" }, 2);
+            new[] { "貪婪", "放棄" }, 2);
         ImGui.SameLine();
-        ImGui.Text("on items if the current equipped item of the same type has a higher item level.");
-        ImGuiComponents.HelpMarker("This setting will only apply to gear you can need on.");
+        ImGui.Text("於同部位已裝備物品品級較高時。");
+        ImGuiComponents.HelpMarker("此設定僅套用於你可選擇需求的裝備。");
 
         ImGui.Checkbox("###RestrictionSeals", ref LazyLoot.Config.RestrictionSeals);
         ImGui.SameLine();
-        ImGui.Text("Pass on items with a expert delivery seal value of less than");
+        ImGui.Text("放棄稀有品籌備軍票價值低於");
         ImGui.SameLine();
         ImGui.SetNextItemWidth(100);
         ImGui.DragInt("###RestrictionSealsAmnt", ref LazyLoot.Config.RestrictionSealsAmnt);
         ImGui.SameLine();
-        ImGui.Text($"(item level {Roller.ConvertSealsToIlvl(LazyLoot.Config.RestrictionSealsAmnt)} and below)");
+        ImGui.Text($"（品級 {Roller.ConvertSealsToIlvl(LazyLoot.Config.RestrictionSealsAmnt)} 以下）");
         ImGuiComponents.HelpMarker(
-            "This setting will only apply to gear able to be turned in for expert delivery.");
+            "此設定僅套用於可作為稀有品籌備繳交的裝備。");
     }
 
     private static void CenterText()
@@ -319,18 +319,18 @@ public class ConfigUi : Window, IDisposable
     private static void DrawUserRestrictionItems()
     {
         ImGuiEx.LineCentered("ItemRestrictionWarning",
-            () => ImGui.TextColored(ImGuiColors.DalamudYellow, "These rules override any other restriction settings"));
+            () => ImGui.TextColored(ImGuiColors.DalamudYellow, "這些規則會覆寫其他所有限制設定"));
         ImGui.Separator();
 
         if (ImGui.BeginTable("UserRestrictionItemsTable", 8, ImGuiTableFlags.Borders))
         {
-            ImGui.TableSetupColumn("Enabled", ImGuiTableColumnFlags.WidthFixed, 50f);
-            ImGui.TableSetupColumn("Icon", ImGuiTableColumnFlags.WidthFixed, 32f);
-            ImGui.TableSetupColumn("Name", ImGuiTableColumnFlags.WidthStretch);
-            ImGui.TableSetupColumn("Need", ImGuiTableColumnFlags.WidthFixed, 50f);
-            ImGui.TableSetupColumn("Greed", ImGuiTableColumnFlags.WidthFixed, 50f);
-            ImGui.TableSetupColumn("Pass", ImGuiTableColumnFlags.WidthFixed, 50f);
-            ImGui.TableSetupColumn("Nothing", ImGuiTableColumnFlags.WidthFixed, 50f);
+            ImGui.TableSetupColumn("啟用", ImGuiTableColumnFlags.WidthFixed, 50f);
+            ImGui.TableSetupColumn("圖示", ImGuiTableColumnFlags.WidthFixed, 32f);
+            ImGui.TableSetupColumn("名稱", ImGuiTableColumnFlags.WidthStretch);
+            ImGui.TableSetupColumn("需求", ImGuiTableColumnFlags.WidthFixed, 50f);
+            ImGui.TableSetupColumn("貪婪", ImGuiTableColumnFlags.WidthFixed, 50f);
+            ImGui.TableSetupColumn("放棄", ImGuiTableColumnFlags.WidthFixed, 50f);
+            ImGui.TableSetupColumn("不處理", ImGuiTableColumnFlags.WidthFixed, 50f);
             ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 60f);
             ImGui.TableHeadersRow();
 
@@ -395,7 +395,7 @@ public class ConfigUi : Window, IDisposable
                 }
 
                 ImGui.TableNextColumn();
-                if (ImGui.Button($"Remove##{item.Id}"))
+                if (ImGui.Button($"移除##{item.Id}"))
                 {
                     LazyLoot.Config.Restrictions.Items.RemoveAt(i);
                     LazyLoot.Config.Save();
@@ -407,22 +407,22 @@ public class ConfigUi : Window, IDisposable
         }
 
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(2, 0));
-        if (ImGui.Button("Export", new Vector2(60, 0)))
+        if (ImGui.Button("匯出", new Vector2(60, 0)))
         {
             var json = System.Text.Json.JsonSerializer.Serialize(LazyLoot.Config.Restrictions.Items);
             ImGui.SetClipboardText(json);
-            Notify.Success("Item Restrictions settings copied to clipboard!");
+            Notify.Success("物品限制設定已複製到剪貼簿！");
         }
 
         ImGui.SameLine();
-        if (ImGui.Button("Import", new Vector2(60, 0)))
+        if (ImGui.Button("匯入", new Vector2(60, 0)))
         {
             try
             {
                 bool userImported = ImportFromClipboard("import_item_confirmation");
                 if (!userImported)
                 {
-                    Notify.Error("Failed to import item restriction settings - invalid format");
+                    Notify.Error("無法匯入物品限制設定：格式無效");
                 }
             }
             catch (Exception e)
@@ -432,7 +432,7 @@ public class ConfigUi : Window, IDisposable
         }
 
         ImGui.SameLine();
-        if (ImGui.Button("Add Item", new Vector2(-1, 0)))
+        if (ImGui.Button("新增物品", new Vector2(-1, 0)))
         {
             searchResultsQuery = "";
             ImGui.OpenPopup("item_search_add");
@@ -449,16 +449,16 @@ public class ConfigUi : Window, IDisposable
             {
                 ImGui.CloseCurrentPopup();
             }
-            ImGui.Text("Are you sure you want to replace your current item restrictions configuration?");
-            ImGuiEx.LineCentered(() => ImGuiEx.TextUnderlined("This action cannot be undone."));
+            ImGui.Text("確定要取代目前的物品限制設定嗎？");
+            ImGuiEx.LineCentered(() => ImGuiEx.TextUnderlined("此操作無法復原。"));
             ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(40 / 255f, 167 / 255f, 69 / 255f, 1.0f));
-            if (ImGui.Button("YES", new Vector2(100f, 0)))
+            if (ImGui.Button("確定", new Vector2(100f, 0)))
             {
                 if (importedRestrictions != null)
                 {
                     LazyLoot.Config.Restrictions.Items = importedRestrictions;
                     LazyLoot.Config.Save();
-                    Notify.Success("Imported Item Restrictions successfully!");
+                    Notify.Success("已成功匯入物品限制！");
                 }
 
                 ImGui.CloseCurrentPopup();
@@ -467,7 +467,7 @@ public class ConfigUi : Window, IDisposable
             ImGui.PopStyleColor();
             ImGui.SameLine();
             ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(220 / 255f, 53 / 255f, 69 / 255f, 1.0f));
-            if (ImGui.Button("NO", new Vector2(-1, 0)))
+            if (ImGui.Button("取消", new Vector2(-1, 0)))
             {
                 ImGui.CloseCurrentPopup();
             }
@@ -478,7 +478,7 @@ public class ConfigUi : Window, IDisposable
 
         if (ImGui.BeginPopup("item_search_add"))
         {
-            ImGui.Text("Search for item:");
+            ImGui.Text("搜尋物品：");
             var currentTime = ImGui.GetTime();
             if (ImGui.GetTime() > lastSearchTime + 0.1f)
             {
@@ -539,7 +539,7 @@ public class ConfigUi : Window, IDisposable
         {
             if (sheet.Any(x => x.RowId == item.Id)) continue;
             bail = true;
-            Notify.Error($"Imported restriction contains invalid item ID: {item.Id}. Import cancelled.");
+            Notify.Error($"匯入的限制包含無效物品 ID：{item.Id}。已取消匯入。");
         }
         if (bail)
         {
@@ -555,7 +555,7 @@ public class ConfigUi : Window, IDisposable
         var clipboardText = ImGui.GetClipboardText();
         if (string.IsNullOrEmpty(clipboardText))
         {
-            Notify.Error("Nothing to import on your clipboard");
+            Notify.Error("剪貼簿中沒有可匯入的內容");
             return false;
         }
         try
@@ -584,20 +584,20 @@ public class ConfigUi : Window, IDisposable
                 var width = ImGui.GetWindowWidth() - 30;
                 ImGui.PushTextWrapPos(width);
                 ImGui.TextColored(ImGuiColors.DalamudYellow,
-                    "These rules override the main restriction settings, but is overriden by the item restriction settings if they happen to collide.");
+                    "這些規則會覆寫主要限制設定；若與物品限制衝突，則以物品限制為準。");
                 ImGui.PopTextWrapPos();
             });
         ImGui.Separator();
 
         if (ImGui.BeginTable("UserRestrictionDutiesTable", 8, ImGuiTableFlags.Borders))
         {
-            ImGui.TableSetupColumn("Enabled", ImGuiTableColumnFlags.WidthFixed, 50f);
-            ImGui.TableSetupColumn("Type", ImGuiTableColumnFlags.WidthFixed, 32f);
-            ImGui.TableSetupColumn("Name", ImGuiTableColumnFlags.WidthStretch);
-            ImGui.TableSetupColumn("Need", ImGuiTableColumnFlags.WidthFixed, 50f);
-            ImGui.TableSetupColumn("Greed", ImGuiTableColumnFlags.WidthFixed, 50f);
-            ImGui.TableSetupColumn("Pass", ImGuiTableColumnFlags.WidthFixed, 50f);
-            ImGui.TableSetupColumn("Nothing", ImGuiTableColumnFlags.WidthFixed, 50f);
+            ImGui.TableSetupColumn("啟用", ImGuiTableColumnFlags.WidthFixed, 50f);
+            ImGui.TableSetupColumn("類型", ImGuiTableColumnFlags.WidthFixed, 32f);
+            ImGui.TableSetupColumn("名稱", ImGuiTableColumnFlags.WidthStretch);
+            ImGui.TableSetupColumn("需求", ImGuiTableColumnFlags.WidthFixed, 50f);
+            ImGui.TableSetupColumn("貪婪", ImGuiTableColumnFlags.WidthFixed, 50f);
+            ImGui.TableSetupColumn("放棄", ImGuiTableColumnFlags.WidthFixed, 50f);
+            ImGui.TableSetupColumn("不處理", ImGuiTableColumnFlags.WidthFixed, 50f);
             ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 60f);
             ImGui.TableHeadersRow();
 
@@ -663,7 +663,7 @@ public class ConfigUi : Window, IDisposable
                 }
 
                 ImGui.TableNextColumn();
-                if (ImGui.Button($"Remove##{duty.Id}"))
+                if (ImGui.Button($"移除##{duty.Id}"))
                 {
                     LazyLoot.Config.Restrictions.Duties.RemoveAt(i);
                     LazyLoot.Config.Save();
@@ -675,22 +675,22 @@ public class ConfigUi : Window, IDisposable
         }
 
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(2, 0));
-        if (ImGui.Button("Export", new Vector2(60, 0)))
+        if (ImGui.Button("匯出", new Vector2(60, 0)))
         {
             var json = System.Text.Json.JsonSerializer.Serialize(LazyLoot.Config.Restrictions.Duties);
             ImGui.SetClipboardText(json);
-            Notify.Success("Duty Restrictions copied to clipboard!");
+            Notify.Success("任務限制已複製到剪貼簿！");
         }
 
         ImGui.SameLine();
-        if (ImGui.Button("Import", new Vector2(60, 0)))
+        if (ImGui.Button("匯入", new Vector2(60, 0)))
         {
             try
             {
                 bool userImported = ImportFromClipboard("import_duty_confirmation");
                 if (!userImported)
                 {
-                    Notify.Error("Failed to import duty restriction settings - invalid format");
+                    Notify.Error("無法匯入任務限制設定：格式無效");
                 }
             }
             catch (Exception e)
@@ -700,7 +700,7 @@ public class ConfigUi : Window, IDisposable
         }
 
         ImGui.SameLine();
-        if (ImGui.Button("Add Duty", new Vector2(-1, 0)))
+        if (ImGui.Button("新增任務", new Vector2(-1, 0)))
         {
             searchResultsQuery = "";
             ImGui.OpenPopup("duty_search_add");
@@ -717,16 +717,16 @@ public class ConfigUi : Window, IDisposable
             {
                 ImGui.CloseCurrentPopup();
             }
-            ImGui.Text("Are you sure you want to replace your current duty restrictions configuration?");
-            ImGuiEx.LineCentered(() => ImGuiEx.TextUnderlined("This action cannot be undone."));
+            ImGui.Text("確定要取代目前的任務限制設定嗎？");
+            ImGuiEx.LineCentered(() => ImGuiEx.TextUnderlined("此操作無法復原。"));
             ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(40 / 255f, 167 / 255f, 69 / 255f, 1.0f));
-            if (ImGui.Button("YES", new Vector2(100f, 0)))
+            if (ImGui.Button("確定", new Vector2(100f, 0)))
             {
                 if (importedRestrictions != null)
                 {
                     LazyLoot.Config.Restrictions.Duties = importedRestrictions;
                     LazyLoot.Config.Save();
-                    Notify.Success("Imported Duty Restrictions successfully!");
+                    Notify.Success("已成功匯入任務限制！");
                 }
 
                 ImGui.CloseCurrentPopup();
@@ -735,7 +735,7 @@ public class ConfigUi : Window, IDisposable
             ImGui.PopStyleColor();
             ImGui.SameLine();
             ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(220 / 255f, 53 / 255f, 69 / 255f, 1.0f));
-            if (ImGui.Button("NO", new Vector2(-1, 0)))
+            if (ImGui.Button("取消", new Vector2(-1, 0)))
             {
                 ImGui.CloseCurrentPopup();
             }
@@ -747,7 +747,7 @@ public class ConfigUi : Window, IDisposable
 
         if (ImGui.BeginPopup("duty_search_add"))
         {
-            ImGui.Text("Search for duty:");
+            ImGui.Text("搜尋任務：");
             var currentTime = ImGui.GetTime();
             if (ImGui.GetTime() > lastSearchTime + 0.1f)
             {
@@ -780,7 +780,7 @@ public class ConfigUi : Window, IDisposable
                     {
                         ImGui.Image(GetDutyIcon(duty), new Vector2(16, 16));
                         if (ImGui.IsItemHovered())
-                            ImGui.SetTooltip("Test");
+                            ImGui.SetTooltip("任務類型");
                         ImGui.SameLine();
                         if (!ImGui.Selectable($" {duty.Name} (ID: {duty.RowId})")) continue;
                         LazyLoot.Config.Restrictions.Duties.Add(new CustomRestriction
@@ -804,19 +804,19 @@ public class ConfigUi : Window, IDisposable
     {
         if (ImGui.BeginTabBar("PerItemDutyConfigTabs"))
         {
-            if (ImGui.BeginTabItem("Everywhere..."))
+            if (ImGui.BeginTabItem("一般規則"))
             {
                 DrawUserRestrictionEverywhere();
                 ImGui.EndTabItem();
             }
 
-            if (ImGui.BeginTabItem("... but for these Items"))
+            if (ImGui.BeginTabItem("指定物品"))
             {
                 DrawUserRestrictionItems();
                 ImGui.EndTabItem();
             }
 
-            if (ImGui.BeginTabItem("... but for these Duties"))
+            if (ImGui.BeginTabItem("指定任務"))
             {
                 DrawUserRestrictionDuties();
                 ImGui.EndTabItem();
@@ -828,54 +828,54 @@ public class ConfigUi : Window, IDisposable
 
     private void DrawChatAndToast()
     {
-        ImGuiEx.LineCentered("ChatInfoLabel", () => ImGuiEx.TextUnderlined("Roll Result Information"));
-        ImGui.Checkbox("Display roll information in chat.", ref LazyLoot.Config.EnableChatLogMessage);
+        ImGuiEx.LineCentered("ChatInfoLabel", () => ImGuiEx.TextUnderlined("擲骰結果資訊"));
+        ImGui.Checkbox("在聊天視窗顯示擲骰資訊", ref LazyLoot.Config.EnableChatLogMessage);
         ImGui.Spacing();
-        ImGuiEx.LineCentered("ToastLabel", () => ImGuiEx.TextUnderlined("Display as Toasts"));
-        ImGuiComponents.HelpMarker("Show your roll information as a pop-up toast, using the various styles below.");
-        ImGui.Checkbox("Quest", ref LazyLoot.Config.EnableQuestToast);
+        ImGuiEx.LineCentered("ToastLabel", () => ImGuiEx.TextUnderlined("顯示為快顯訊息"));
+        ImGuiComponents.HelpMarker("使用下列樣式將擲骰資訊顯示為快顯訊息。");
+        ImGui.Checkbox("任務", ref LazyLoot.Config.EnableQuestToast);
         ImGui.SameLine();
-        ImGui.Checkbox("Normal", ref LazyLoot.Config.EnableNormalToast);
+        ImGui.Checkbox("一般", ref LazyLoot.Config.EnableNormalToast);
         ImGui.SameLine();
-        ImGui.Checkbox("Error", ref LazyLoot.Config.EnableErrorToast);
+        ImGui.Checkbox("錯誤", ref LazyLoot.Config.EnableErrorToast);
     }
 
     private void DrawFulf()
     {
-        ImGuiEx.LineCentered("FULFLabel", () => ImGuiEx.TextUnderlined("Fancy Ultimate Lazy Feature"));
+        ImGuiEx.LineCentered("FULFLabel", () => ImGuiEx.TextUnderlined("終極懶人功能（FULF）"));
 
         ImGui.TextWrapped(
-            "Fancy Ultimate Lazy Feature (FULF) is a set and forget feature that will automatically roll on items for you instead of having to use the commands above.");
+            "終極懶人功能（FULF）可依設定自動為物品擲骰，不必每次使用上方指令。");
         ImGui.Separator();
         ImGui.Columns(2, ImU8String.Empty, false);
         ImGui.SetColumnWidth(0, 80);
         ImGui.Text("/fulf need");
         ImGui.NextColumn();
-        ImGui.Text("Set FULF to Needing mode, where it will follow the /lazy need rules.");
+        ImGui.Text("將 FULF 設為需求模式，遵循 /lazy need 規則。");
         ImGui.NextColumn();
         ImGui.Text("/fulf greed");
         ImGui.NextColumn();
-        ImGui.Text("Set FULF to Greeding mode, where it will follow the /lazy greed rules.");
+        ImGui.Text("將 FULF 設為貪婪模式，遵循 /lazy greed 規則。");
         ImGui.NextColumn();
         ImGui.Text("/fulf pass");
         ImGui.NextColumn();
-        ImGui.Text("Set FULF to Passing mode, where it will follow the /lazy pass rules.");
+        ImGui.Text("將 FULF 設為放棄模式，遵循 /lazy pass 規則。");
         ImGui.NextColumn();
         ImGui.Columns(1);
         ImGui.Separator();
         ImGui.Checkbox("###FulfEnabled", ref LazyLoot.Config.FulfEnabled);
         ImGui.SameLine();
         ImGui.TextColored(LazyLoot.Config.FulfEnabled ? ImGuiColors.HealerGreen : ImGuiColors.DalamudRed,
-            LazyLoot.Config.FulfEnabled ? "FULF Enabled" : "FULF Disabled");
+            LazyLoot.Config.FulfEnabled ? "FULF 已啟用" : "FULF 已停用");
 
         ImGui.SetNextItemWidth(100);
 
-        if (ImGui.Combo("Roll options", ref LazyLoot.Config.FulfRoll, new[] { "Need", "Greed", "Pass" }, 3))
+        if (ImGui.Combo("擲骰選項", ref LazyLoot.Config.FulfRoll, new[] { "需求", "貪婪", "放棄" }, 3))
             LazyLoot.Config.Save();
 
-        ImGui.Text("First Roll Delay Range (In seconds)");
+        ImGui.Text("首次擲骰延遲範圍（秒）");
         ImGui.SetNextItemWidth(100);
-        ImGui.DragFloat("Minimum Delay in seconds. ", ref LazyLoot.Config.FulfMinRollDelayInSeconds, 0.1F);
+        ImGui.DragFloat("最短延遲（秒）", ref LazyLoot.Config.FulfMinRollDelayInSeconds, 0.1F);
 
         if (LazyLoot.Config.FulfMinRollDelayInSeconds >= LazyLoot.Config.FulfMaxRollDelayInSeconds)
             LazyLoot.Config.FulfMinRollDelayInSeconds = LazyLoot.Config.FulfMaxRollDelayInSeconds - 0.1f;
@@ -883,7 +883,7 @@ public class ConfigUi : Window, IDisposable
         if (LazyLoot.Config.FulfMinRollDelayInSeconds < 1.5f) LazyLoot.Config.FulfMinRollDelayInSeconds = 1.5f;
 
         ImGui.SetNextItemWidth(100);
-        ImGui.DragFloat("Maximum Delay in seconds. ", ref LazyLoot.Config.FulfMaxRollDelayInSeconds, 0.1F);
+        ImGui.DragFloat("最長延遲（秒）", ref LazyLoot.Config.FulfMaxRollDelayInSeconds, 0.1F);
 
         if (LazyLoot.Config.FulfMaxRollDelayInSeconds <= LazyLoot.Config.FulfMinRollDelayInSeconds)
             LazyLoot.Config.FulfMaxRollDelayInSeconds = LazyLoot.Config.FulfMinRollDelayInSeconds + 0.1f;

@@ -1,4 +1,4 @@
-﻿using ECommons.DalamudServices;
+using ECommons.DalamudServices;
 using ECommons.GameHelpers;
 using ECommons.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -212,7 +212,7 @@ internal static class Roller
                 return RollResult.Passed;
             }
 
-            if (LazyLoot.Config.RestrictionIgnoreMounts && lootItem.Value.ItemAction.Value.Type == 1322)
+            if (LazyLoot.Config.RestrictionIgnoreMounts && lootItem.Value.ItemAction.Value.Action.RowId == 1322)
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
@@ -221,7 +221,7 @@ internal static class Roller
                 return RollResult.Passed;
             }
 
-            if (LazyLoot.Config.RestrictionIgnoreMinions && lootItem.Value.ItemAction.Value.Type == 853)
+            if (LazyLoot.Config.RestrictionIgnoreMinions && lootItem.Value.ItemAction.Value.Action.RowId == 853)
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
@@ -231,7 +231,7 @@ internal static class Roller
             }
 
             if (LazyLoot.Config.RestrictionIgnoreBardings
-                && lootItem.Value.ItemAction.Value.Type == 1013)
+                && lootItem.Value.ItemAction.Value.Action.RowId == 1013)
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
@@ -241,7 +241,7 @@ internal static class Roller
             }
 
             if (LazyLoot.Config.RestrictionIgnoreEmoteHairstyle
-                && lootItem.Value.ItemAction.Value.Type == 2633)
+                && lootItem.Value.ItemAction.Value.Action.RowId == 2633)
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
@@ -251,7 +251,7 @@ internal static class Roller
             }
 
             if (LazyLoot.Config.RestrictionIgnoreTripleTriadCards
-                && lootItem.Value.ItemAction.Value.Type == 3357)
+                && lootItem.Value.ItemAction.Value.Action.RowId == 3357)
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
@@ -261,7 +261,7 @@ internal static class Roller
             }
 
             if (LazyLoot.Config.RestrictionIgnoreOrchestrionRolls
-                && lootItem.Value.ItemAction.Value.Type == 25183)
+                && lootItem.Value.ItemAction.Value.Action.RowId == 25183)
             {
                 if (LazyLoot.Config.DiagnosticsMode)
                     DuoLog.Debug(
@@ -360,7 +360,7 @@ internal static class Roller
 
         //PLD set.
         if (LazyLoot.Config.RestrictionOtherJobItems
-            && lootItem.Value.ItemAction.Value.Type == 29153
+            && lootItem.Value.ItemAction.Value.Action.RowId == 29153
             && !(Player.Object?.ClassJob.RowId is 1 or 19))
         {
             if (LazyLoot.Config.DiagnosticsMode)

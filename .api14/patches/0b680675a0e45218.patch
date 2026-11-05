@@ -1,0 +1,42 @@
+diff --git a/PunishLib/PunishLib.csproj b/PunishLib/PunishLib.csproj
+index 025eba7..7655747 100644
+--- a/PunishLib/PunishLib.csproj
++++ b/PunishLib/PunishLib.csproj
+@@ -6,7 +6,7 @@
+     </PropertyGroup>
+ 
+     <PropertyGroup>
+-        <TargetFramework>net9.0-windows7.0</TargetFramework>
++        <TargetFramework>net10.0-windows7.0</TargetFramework>
+         <Platforms>x64</Platforms>
+         <LangVersion>preview</LangVersion>
+         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+@@ -28,7 +28,7 @@
+     </PropertyGroup>
+ 
+     <ItemGroup>
+-      <PackageReference Include="ECommons" Version="3.0.1.5" />
++      <ProjectReference Include="../../ECommons/ECommons/ECommons.csproj" />
+     </ItemGroup>
+ 
+     <ItemGroup>
+diff --git a/PunishLib/packages.lock.json b/PunishLib/packages.lock.json
+index 4f3e8b1..f746996 100644
+--- a/PunishLib/packages.lock.json
++++ b/PunishLib/packages.lock.json
+@@ -1,12 +1,9 @@
+ {
+   "version": 1,
+   "dependencies": {
+-    "net9.0-windows7.0": {
+-      "ECommons": {
+-        "type": "Direct",
+-        "requested": "[3.0.1.5, )",
+-        "resolved": "3.0.1.5",
+-        "contentHash": "dUbgHV16y3nq/PgEg244IpBAuP0FQfrBFyrlNDfSkeNrB7Ze7WqOneGP+Nuorr1hLv0p2E2nyrNvFp8mJuKDWQ=="
++    "net10.0-windows7.0": {
++      "ecommons": {
++        "type": "Project"
+       }
+     }
+   }

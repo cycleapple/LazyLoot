@@ -3,7 +3,7 @@
     "path": "ECommons",
     "baseCommit": "636eb6855dadd58161c64cba809086e622bbfcd8",
     "patch": "patches/e347001520b30beb.patch",
-    "sha256": "f79c8a2a4b30545784ddc1318a0a52bbc3ac85e6c73c0b246ad6b65ea72499a9"
+    "sha256": "913607f4ad9f189812784a02638b2a25255d0ee7f184df04a7c7f59c76cf462e"
   },
   {
     "path": "PunishLib",

@@ -13,6 +13,6 @@
   "RepoUrl": "https://github.com/cycleapple/LazyLoot/tree/api13-tw",
   "ImageUrls": null,
   "IconUrl": "https://love.puni.sh/resources/lazyloot.png",
-  "DalamudAPILevel": 13,
+  "DalamudAPILevel": 14,
   "ChangeLog": "- 新增繁體中文介面翻譯。"
 }
